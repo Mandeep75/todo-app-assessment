@@ -124,3 +124,69 @@ This launches Karma in Chrome and runs all 21 unit tests.
 - **Service layer** — all HTTP logic is in `TodoService`, the component never calls the API directly.
 - **Environment files** — API URL is configurable per environment, not hardcoded in the component.
 - **trackBy** — used in `*ngFor` for performance, avoids re-rendering the entire list on every change.
+
+---
+
+## E2E Tests (Playwright)
+
+### Tech Stack
+
+| Layer     | Technology          |
+| --------- | ------------------- |
+| Framework | Playwright          |
+| Browser   | Chromium            |
+| Tests     | 21 end-to-end tests |
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) v20+
+
+### Setup
+
+```bash
+cd e2e
+npm install
+npx playwright install --with-deps chromium
+```
+
+### Running E2E Tests
+
+> Both the backend and frontend must be running first.
+
+```bash
+npx playwright test
+```
+
+### Other Useful Commands
+
+```bash
+# Run with visible browser
+npx playwright test --headed
+
+# Run with interactive UI mode
+npx playwright test --ui
+
+# View the last HTML report
+npx playwright show-report
+```
+
+### Test Coverage
+
+- Page structure and initial load
+- Adding todos (button click and Enter key)
+- Input validation (empty and whitespace)
+- Deleting todos
+- Toggling completion status
+- Remaining and completed counts
+- Accessibility (aria-labels, role="alert")
+
+---
+
+## Running Everything Together
+
+1. Start the backend: `cd backend/TodoApi && dotnet run`
+2. Start the frontend: `cd frontend && ng serve`
+3. Open the app: `http://localhost:4200`
+4. Run backend tests: `cd backend/TodoApi.Tests && dotnet test`
+5. Run frontend tests: `cd frontend && ng test`
+6. Run E2E tests: `cd e2e && npx playwright test`
