@@ -1,0 +1,62 @@
+<div class="todo-app">
+  <header class="todo-header">
+    <h1>Todo List</h1>
+    <p class="subtitle" *ngIf="todos().length > 0">
+      {{ remainingCount() }} remaining · {{ completedCount() }} done
+    </p>
+  </header>
+
+  <div class="error-banner" *ngIf="errorMessage()" role="alert">
+    {{ errorMessage() }}
+  </div>
+
+  <div class="add-todo">
+    <input
+      type="text"
+      [(ngModel)]="pendingTitle"
+      placeholder="Add a new todo..."
+      aria-label="New todo title"
+      (keydown)="onKeydown($event)"
+      [disabled]="isLoading()"
+      maxlength="200"
+    />
+    <button
+      (click)="addTodo()"
+      [disabled]="!pendingTitle.trim() || isLoading()"
+      aria-label="Add todo"
+      class="btn-add"
+    >
+      Add
+    </button>
+  </div>
+
+  <div class="loading" *ngIf="isLoading()" aria-live="polite">Loading...</div>
+
+  <ul class="todo-list" *ngIf="!isLoading()">
+    <li
+      *ngFor="let todo of todos(); trackBy: trackById"
+      class="todo-item"
+      [class.completed]="todo.isCompleted"
+    >
+      <input
+        type="checkbox"
+        [id]="'todo-' + todo.id"
+        [checked]="todo.isCompleted"
+        (change)="toggleTodo(todo.id)"
+        [attr.aria-label]="'Mark ' + todo.title + ' as ' + (todo.isCompleted ? 'incomplete' : 'complete')"
+      />
+      <label [for]="'todo-' + todo.id">{{ todo.title }}</label>
+      <button
+        class="btn-delete"
+        (click)="deleteTodo(todo.id)"
+        [attr.aria-label]="'Delete ' + todo.title"
+      >
+        Delete
+      </button>
+    </li>
+  </ul>
+
+  <p class="empty-state" *ngIf="!isLoading() && todos().length === 0">
+    No todos yet — add one above!
+  </p>
+</div>

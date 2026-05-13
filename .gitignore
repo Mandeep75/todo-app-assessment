@@ -11,6 +11,9 @@ dist/
 # Angular build
 frontend/dist/
 
+# Angular cache
+.angular/
+
 # Playwright
 e2e/playwright-report/
 e2e/test-results/
